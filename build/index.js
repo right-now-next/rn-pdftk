@@ -26,15 +26,16 @@ function getBinPath() {
     if (process.platform === "linux") {
         process.env.LD_LIBRARY_PATH = path.join(__dirname, "binaries", process.platform, "lib");
     }
-    return path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
+    process.env.PDFTK_PATH = path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
+    return process.env.PDFTK_PATH;
 }
-pdftk.configure({
-    bin: getBinPath(),
-    Promise: Promise,
-    ignoreWarnings: true,
-    tempDir: "./tmp"
-});
 function input(file) {
+    pdftk.configure({
+        bin: getBinPath(),
+        Promise: Promise,
+        ignoreWarnings: true,
+        tempDir: "./tmp"
+    });
     return pdftk.input(file);
 }
 exports.input = input;
