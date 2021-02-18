@@ -8,12 +8,13 @@ function getBinPath() {
     return path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
 }
 
-export function client() {
-    pdftk.configure({
-        bin: getBinPath(),
-        Promise: Promise,
-        ignoreWarnings: true,
-        tempDir: "./tmp"
-    });
-    return pdftk;
-};
+pdftk.configure({
+    bin: getBinPath(),
+    Promise: Promise,
+    ignoreWarnings: true,
+    tempDir: "./tmp"
+});
+
+export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>): pdftk.PDFTK{
+    return pdftk.input(file);
+}
