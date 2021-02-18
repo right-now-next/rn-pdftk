@@ -41,6 +41,12 @@ function input(file) {
 }
 exports.input = input;
 function getPageCount(file) {
+    pdftk.configure({
+        bin: getBinPath(),
+        Promise: Promise,
+        ignoreWarnings: true,
+        tempDir: "/tmp"
+    });
     return pdftk.input(file).dumpDataUtf8().output().then(function (buff) {
         var regex = /NumberOfPages: (\d*)/g;
         var matchs = regex.exec(buff.toString());

@@ -1,7 +1,7 @@
 import * as pdftk from "node-pdftk";
 import * as path from "path";
 
-export function getBinPath():string {
+export function getBinPath(): string {
     if (process.platform === "linux") {
         process.env.LD_LIBRARY_PATH = path.resolve(path.join(__dirname, "binaries", process.platform, "lib"));
     }
@@ -9,7 +9,7 @@ export function getBinPath():string {
     return process.env.PDFTK_PATH;
 }
 
-export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>): pdftk.PDFTK{
+export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>): pdftk.PDFTK {
     pdftk.configure({
         bin: getBinPath(),
         Promise: Promise,
@@ -18,13 +18,19 @@ export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Le
     });
     return pdftk.input(file);
 }
-export function getPageCount(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>){
-    return pdftk.input(file).dumpDataUtf8().output().then(buff=>{
+export function getPageCount(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>) {
+    pdftk.configure({
+        bin: getBinPath(),
+        Promise: Promise,
+        ignoreWarnings: true,
+        tempDir: "/tmp"
+    });
+    return pdftk.input(file).dumpDataUtf8().output().then(buff => {
         const regex = /NumberOfPages: (\d*)/g;
         const matchs = regex.exec(buff.toString());
         if (!matchs || matchs?.length == 0) {
             return 0;
         }
-        return Number(matchs[1])!==NaN?Number(matchs[1]):0;
+        return Number(matchs[1]) !== NaN ? Number(matchs[1]) : 0;
     });
 }

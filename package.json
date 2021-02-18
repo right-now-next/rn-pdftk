@@ -1,6 +1,6 @@
 {
   "name": "rn-pdftk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "pdftk port with binaries",
   "main": "build/index.js",
   "types": "build/index.d.ts",
