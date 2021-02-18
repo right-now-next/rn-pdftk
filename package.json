@@ -2,9 +2,8 @@
   "name": "rn-pdftk",
   "version": "1.0.0",
   "description": "pdftk port with binaries",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "prepublish": "tsc",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "license": "MIT",
   "dependencies": {
     "node-pdftk": "^2.1.3",
