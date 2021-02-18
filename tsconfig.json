@@ -1,13 +1,8 @@
 {
-  "name": "rn-pdftk",
-  "version": "1.0.0",
-  "description": "pdftk port with binaries",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "node-pdftk": "^2.1.3"
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "devDependencies": {
-    "@types/node-pdftk": "^2.1.4"
-  }
+  "include": ["src"],
+  "references": []
 }
