@@ -5,6 +5,10 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "postbuild": "cp -rf ./src/binaries ./build/"
+  },
   "dependencies": {
     "node-pdftk": "^2.1.3",
     "path": "^0.12.7"
