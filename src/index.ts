@@ -26,5 +26,5 @@ export function getPageCount(pdf:pdftk.PDFTK){
             return 0;
         }
         return Number(matchs[1])!==NaN?Number(matchs[1]):0;
-    })
+    });
 }
