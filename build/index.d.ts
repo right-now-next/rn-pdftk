@@ -1,2 +1,2 @@
 import * as pdftk from "node-pdftk";
-export default pdftk;
+export declare function client(): typeof pdftk;

@@ -19,6 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.client = void 0;
 var pdftk = __importStar(require("node-pdftk"));
 var path = __importStar(require("path"));
 function getBinPath() {
@@ -27,10 +28,14 @@ function getBinPath() {
     }
     return path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
 }
-pdftk.configure({
-    bin: getBinPath(),
-    Promise: Promise,
-    ignoreWarnings: true,
-    tempDir: "./tmp"
-});
-exports.default = pdftk;
+function client() {
+    pdftk.configure({
+        bin: getBinPath(),
+        Promise: Promise,
+        ignoreWarnings: true,
+        tempDir: "./tmp"
+    });
+    return pdftk;
+}
+exports.client = client;
+;
