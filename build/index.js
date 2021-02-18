@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.input = exports.getBinPath = void 0;
+exports.getPageCount = exports.input = exports.getBinPath = void 0;
 var pdftk = __importStar(require("node-pdftk"));
 var path = __importStar(require("path"));
 function getBinPath() {
@@ -40,3 +40,14 @@ function input(file) {
     return pdftk.input(file);
 }
 exports.input = input;
+function getPageCount(pdf) {
+    return pdf.dumpDataUtf8().output().then(function (buff) {
+        var regex = /NumberOfPages: (\d*)/g;
+        var matchs = regex.exec(buff.toString());
+        if (!matchs || (matchs === null || matchs === void 0 ? void 0 : matchs.length) == 0) {
+            return 0;
+        }
+        return Number(matchs[1]) !== NaN ? Number(matchs[1]) : 0;
+    });
+}
+exports.getPageCount = getPageCount;

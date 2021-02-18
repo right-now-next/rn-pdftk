@@ -18,3 +18,13 @@ export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Le
     });
     return pdftk.input(file);
 }
+export function getPageCount(pdf:pdftk.PDFTK){
+    return pdf.dumpDataUtf8().output().then(buff=>{
+        const regex = /NumberOfPages: (\d*)/g;
+        const matchs = regex.exec(buff.toString());
+        if (!matchs || matchs?.length == 0) {
+            return 0;
+        }
+        return Number(matchs[1])!==NaN?Number(matchs[1]):0;
+    })
+}
