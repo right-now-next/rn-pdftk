@@ -18,8 +18,8 @@ export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Le
     });
     return pdftk.input(file);
 }
-export function getPageCount(pdf:pdftk.PDFTK){
-    return pdf.dumpDataUtf8().output().then(buff=>{
+export function getPageCount(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>){
+    return pdftk.input(file).dumpDataUtf8().output().then(buff=>{
         const regex = /NumberOfPages: (\d*)/g;
         const matchs = regex.exec(buff.toString());
         if (!matchs || matchs?.length == 0) {

@@ -40,8 +40,8 @@ function input(file) {
     return pdftk.input(file);
 }
 exports.input = input;
-function getPageCount(pdf) {
-    return pdf.dumpDataUtf8().output().then(function (buff) {
+function getPageCount(file) {
+    return pdftk.input(file).dumpDataUtf8().output().then(function (buff) {
         var regex = /NumberOfPages: (\d*)/g;
         var matchs = regex.exec(buff.toString());
         if (!matchs || (matchs === null || matchs === void 0 ? void 0 : matchs.length) == 0) {
