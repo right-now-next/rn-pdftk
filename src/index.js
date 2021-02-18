@@ -1,14 +1,17 @@
-//import * as pdftk from "node-pdftk";
+"use strict";
+exports.__esModule = true;
+var pdftk = require("node-pdftk");
+var path = require("path");
 function getBinPath() {
-    switch (process.platform) {
-        case "linux":
-            return "linux";
-            break;
-        case "darwin":
-            return "darwin";
-            break;
+    if (process.platform === "linux") {
+        process.env.LD_LIBRARY_PATH = path.join(__dirname, "binaries", process.platform, "lib");
     }
+    return path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
 }
-console.log("cem");
-console.log(getBinPath());
-//linux: export LD_LIBRARY_PATH=$(pwd)/lib && $(pwd)/bin/pdftk
+pdftk.configure({
+    bin: getBinPath(),
+    Promise: Promise,
+    ignoreWarnings: true,
+    tempDir: "./tmp"
+});
+exports["default"] = pdftk;
