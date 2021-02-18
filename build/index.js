@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.input = void 0;
+exports.input = exports.getBinPath = void 0;
 var pdftk = __importStar(require("node-pdftk"));
 var path = __importStar(require("path"));
 function getBinPath() {
@@ -29,6 +29,7 @@ function getBinPath() {
     process.env.PDFTK_PATH = path.join(__dirname, "binaries", process.platform, "bin", "pdftk");
     return process.env.PDFTK_PATH;
 }
+exports.getBinPath = getBinPath;
 function input(file) {
     pdftk.configure({
         bin: getBinPath(),

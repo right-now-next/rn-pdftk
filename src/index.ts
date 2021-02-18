@@ -1,7 +1,7 @@
 import * as pdftk from "node-pdftk";
 import * as path from "path";
 
-function getBinPath() {
+export function getBinPath():string {
     if (process.platform === "linux") {
         process.env.LD_LIBRARY_PATH = path.join(__dirname, "binaries", process.platform, "lib");
     }
