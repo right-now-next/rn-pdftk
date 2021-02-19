@@ -9,22 +9,29 @@ export function getBinPath(): string {
     return process.env.PDFTK_PATH;
 }
 
-export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>): pdftk.PDFTK {
+export function configure(){
+    //check is it AWS LAMBDA
+    /*
+    Please use lambda layers for aws lambda
+    */
+    if(process.env.LAMBDA_TASK_ROOT && process.env.LAMBDA_TASK_ROOT!==""){
+        return;
+    }
     pdftk.configure({
         bin: getBinPath(),
         Promise: Promise,
         ignoreWarnings: true,
         tempDir: "/tmp"
     });
+    return;
+}
+
+export function input(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>): pdftk.PDFTK {
+    configure();
     return pdftk.input(file);
 }
 export function getPageCount(file: string | Buffer | Buffer[] | Partial<Record<pdftk.Letter, string | Buffer>>) {
-    pdftk.configure({
-        bin: getBinPath(),
-        Promise: Promise,
-        ignoreWarnings: true,
-        tempDir: "/tmp"
-    });
+    configure();
     return pdftk.input(file).dumpDataUtf8().output().then(buff => {
         const regex = /NumberOfPages: (\d*)/g;
         const matchs = regex.exec(buff.toString());

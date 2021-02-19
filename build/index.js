@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPageCount = exports.input = exports.getBinPath = void 0;
+exports.getPageCount = exports.input = exports.configure = exports.getBinPath = void 0;
 var pdftk = __importStar(require("node-pdftk"));
 var path = __importStar(require("path"));
 function getBinPath() {
@@ -30,23 +30,30 @@ function getBinPath() {
     return process.env.PDFTK_PATH;
 }
 exports.getBinPath = getBinPath;
-function input(file) {
+function configure() {
+    //check is it AWS LAMBDA
+    /*
+    Please use lambda layers for aws lambda
+    */
+    if (process.env.LAMBDA_TASK_ROOT && process.env.LAMBDA_TASK_ROOT !== "") {
+        return;
+    }
     pdftk.configure({
         bin: getBinPath(),
         Promise: Promise,
         ignoreWarnings: true,
         tempDir: "/tmp"
     });
+    return;
+}
+exports.configure = configure;
+function input(file) {
+    configure();
     return pdftk.input(file);
 }
 exports.input = input;
 function getPageCount(file) {
-    pdftk.configure({
-        bin: getBinPath(),
-        Promise: Promise,
-        ignoreWarnings: true,
-        tempDir: "/tmp"
-    });
+    configure();
     return pdftk.input(file).dumpDataUtf8().output().then(function (buff) {
         var regex = /NumberOfPages: (\d*)/g;
         var matchs = regex.exec(buff.toString());
